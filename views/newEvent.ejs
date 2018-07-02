@@ -1,0 +1,44 @@
+<% include partials/header   %>
+
+
+
+                <div class="container" style="width: 50%; margin-top:60px; margin-bottom:60px;  margin:150 auto; background:#e9ecef; padding:50px;" >
+                          
+                <form action="/<%= newData.user %>/My_Calendar/<%= newData.month %>/<%= newData.date %>/<%= newData.year %>" method="POST">
+                        <div class="form-group">
+                        <h2 style="text-align:center;" ><strong>Add New Event</strong></h2>
+                        </div>
+                        
+                       
+                        <div class="form-group">
+                            <label for="title"><strong>Title:</strong></label>                                  
+                            <input class="form-control" id="title" type="text" name="title" placeholder="Enter Title">
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="description"><strong>Description:</strong></label>
+                            <textarea class="form-control" rows="5" id="description" type="text" name="description" placeholder="Enter Description"></textarea>
+                        </div>                        
+                        
+                        <div class="form-group">
+                            <label for="start_time"><strong>Start Time:</strong></label>
+                            <input class="form-control" id="start_time" type="time" name="start_time" placeholder="Enter Start Time">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="end_time"><strong>End Time:</strong></label>
+                            <input class="form-control" id="end_time" type="time" name="end_time" placeholder="Enter Start Time">
+                        </div>
+                        
+                        <div class="form-group">
+                             <button class="btn btn-large btn-primary btn-block">Submit !</button>
+                        </div>
+                </form>
+             </div>
+
+
+<% include partials/footer   %>
+
+
+
+

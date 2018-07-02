@@ -1,0 +1,276 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+    <title> Calendar </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    </head>
+    <style>
+        body{
+                  background:url("https://www.xmple.com/wallpaper/one-colour-single-solid-color-azure-plain-1920x1080-c-024261-f-24.svg");;
+        }
+        td:hover{
+            cursor:pointer;
+        }
+        .modify{
+             
+            padding: 15px;
+            background: orange;
+        }
+        td{
+            background: orange;
+            width:70px;
+            height:50px;
+            border:1px solid black;
+            text-align: center;
+        }
+        #success{
+            margin-left: 60px;
+            margin-right: 60px;
+        }
+        .modify:hover{
+            cursor: pointer;
+        }
+        table{
+                  margin:0 auto;
+        }
+    </style>
+    <body>
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                 <a class="navbar-brand" href="/">HOME</a>
+                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                 </button>
+                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                   <div class="navbar-nav navbar-right">
+                     <a class="nav-item nav-link active" href="/register">SIGNUP</a>
+                     <a class="nav-item nav-link active" href="/login">LOGIN</a>
+                     <a class="nav-item nav-link active" href="/logout">LOGOUT</a>
+                   </div>
+                 </div>
+          </nav>
+          <div class="container">
+                    <h2 style="text-align:center; color:orange;" >My Calendar</h2>
+          </div>
+        
+             <div class="container" style="text-align:center; background:orange; font-size:20px; ">
+             <hr>             
+                 <span id="my_month"></span>
+                 <span id="my_date"></span>
+                 <span id="my_year"></span>
+                
+             <hr>
+             </div>
+             <hr>
+             <div style="text-align:center;" >
+             <span class="modify" onclick="left()">&larr;</span>
+             <span style="margin-left:50px;" class="modify" onclick="right()">&rarr;</span>
+             </div>
+             <hr>    
+ 
+        <div class="container" style="margin:0 auto;"> 
+            <span id="my_table"></span>        
+            <hr>
+            <form action="/secret"  method="POST" id="my_form">
+            <input type="hidden" id="my_secret_id" name="my_input">  
+            <input type="hidden" id="user" name="my_username">
+            <button style="display:none;" >Submit!</button>
+            </form>
+        </div>     
+        <script>
+        
+            function myFunction(){
+                  var temp_id = month_name[month]+"/"+this.innerHTML+"/" + year;             
+                  document.getElementById("user").value = "<%= CurrentUser %>";
+                  document.getElementById("my_secret_id").value = temp_id;
+                  document.getElementById("my_form").submit();
+                  
+             }
+            
+            var d;
+            var month;
+            var year;
+            var date;
+            var table;
+            var month_name = ["January","February","March","April","May","June","July",
+                              "August","September","October","November","December"];
+           
+
+            
+            
+            function left(){
+               month  -= 1;
+               if(month<0){
+                   year -=1;
+                   month = 12;
+                   left();
+               }
+                var first_date = month_name[month] +" " + 1 + " " + year;
+                var first_day = new Date(first_date).toDateString().substring(0,3);
+             
+                var day_name = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+                var day_no = day_name.indexOf(first_day);
+                var days = new Date(year , month+1 , 0).getDate();
+                
+                document.getElementById("my_month").innerHTML = month_name[month];
+                document.getElementById("my_year").innerHTML = year;
+                document.getElementById("my_date").innerHTML = date;
+                //document.getElementById("my_day").innerHTML = first_day;
+                //document.getElementById("my_day_no").innerHTML = day_no;    
+                //document.getElementById("my_days").innerHTML = days;
+                console.log("Right button clicked");
+                console.log("Left button clicked");
+                document.getElementById("my_table").removeChild(table);
+                get_calender(day_no,days); 
+            }
+            
+            
+           function right(){
+               month  += 1;
+               if(month>11){
+                   month=-1;
+                   year +=1;
+                   right();
+               }
+                
+                var first_date = month_name[month] +" " + 1 + " " + year;
+                var first_day = new Date(first_date).toDateString().substring(0,3);
+             
+                var day_name = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+                var day_no = day_name.indexOf(first_day);
+                var days = new Date(year , month+1 , 0).getDate();
+                
+                document.getElementById("my_month").innerHTML = month_name[month];
+                document.getElementById("my_year").innerHTML = year;
+                document.getElementById("my_date").innerHTML = date;
+                //document.getElementById("my_day").innerHTML = first_day;
+                //document.getElementById("my_day_no").innerHTML = day_no;    
+               // document.getElementById("my_days").innerHTML = days;
+                console.log("Right button clicked");
+                document.getElementById("my_table").removeChild(table);
+                get_calender(day_no,days); 
+           }
+            
+           
+            
+            window.onload = function(){
+            d = new Date();
+            month = d.getMonth();
+            year = d.getFullYear();
+            date = d.getDate();
+            
+            var first_date = month_name[month] +" " + 1 + " " + year;
+            var first_day = new Date(first_date).toDateString().substring(0,3);
+            
+            var day_name = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+            var day_no = day_name.indexOf(first_day);
+            
+            
+            var days = new Date(year , month+1 , 0).getDate();
+                
+            document.getElementById("my_month").innerHTML = month_name[month];
+            document.getElementById("my_year").innerHTML = year;
+            document.getElementById("my_date").innerHTML = date;
+            //document.getElementById("my_day").innerHTML = first_day;
+            //document.getElementById("my_day_no").innerHTML = day_no;    
+           // document.getElementById("my_days").innerHTML = days;
+            get_calender(day_no,days);
+        }
+            //x :- is day_no and y :- is days in a month
+         function get_calender(x,y){
+             var status = false;
+             table = document.createElement("table");
+             var tr = document.createElement("tr");
+             var day_name_new = ["S","M","T","W","T","F","S"];
+             //First Row
+             for(var i=0;i<=6;i++){
+                 var td = document.createElement("td");
+                 td.id = "0"+i;
+                 td.innerHTML = day_name_new[i]+" ";
+                 tr.appendChild(td);
+             }
+             table.append(tr);
+             
+             
+             //Second row
+             var no = 1;
+             tr = document.createElement("tr");
+             for(var i=0;i<=6;i++){
+                 if(x==i){
+                     status = true;
+                 }
+                
+                if(status && no<=y){
+                 td = document.createElement("td");
+                 td.id = "1" + i;
+                 td.innerHTML = no;
+                 tr.appendChild(td);
+                 no++;     
+                 }else{
+                 td = document.createElement("td");
+                 td.id = "1" + i;         
+                 td.innerHTML = "  ";
+                 tr.appendChild(td);
+                 }
+                 table.append(tr);
+              }//End of 2nd for loop
+             
+             //Remaining row
+             for(var j=2;j<=6;j++){
+             tr = document.createElement("tr");
+             for(var i=0;i<=6;i++){
+                 if(no<=y){
+                 td = document.createElement("td");
+                 td.id = (10*j)+i;            
+                 td.innerHTML = no;
+                 tr.appendChild(td);
+                 no++;     
+                 }else{
+                 td = document.createElement("td");
+                 td.id = (10*j)+i;                                          
+                 td.innerHTML = " ";
+                 tr.appendChild(td);
+                 }
+              }
+                 table.append(tr);
+            }//Finish row     
+             
+            document.getElementById("my_table").appendChild(table);
+            evt_listener(); 
+
+             
+         }//End of function
+            
+            //Evenet listener for various td
+            function evt_listener(){
+                   for(var i=0;i<=6;i++){
+                       document.getElementById("0"+i).addEventListener("click",myFunction);
+                   }
+                   for(var i=0;i<=6;i++){
+                       document.getElementById("1"+i).addEventListener("click",myFunction);
+                   }
+                   for(var i=0;i<=6;i++){
+                       document.getElementById("2"+i).addEventListener("click",myFunction);
+                   }
+                   for(var i=0;i<=6;i++){
+                       document.getElementById("3"+i).addEventListener("click",myFunction);
+                   }
+                   for(var i=0;i<=6;i++){
+                       document.getElementById("4"+i).addEventListener("click",myFunction);
+                   }
+                   for(var i=0;i<=6;i++){
+                       document.getElementById("5"+i).addEventListener("click",myFunction);
+                   }
+                   for(var i=0;i<=6;i++){
+                       document.getElementById("6"+i).addEventListener("click",myFunction);
+                   }
+             
+
+            }//End for event listener function
+
+             
+
+        </script>
+    </body>
+</html>
